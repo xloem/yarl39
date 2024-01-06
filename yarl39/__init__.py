@@ -80,7 +80,7 @@ class SyncThreadPump(threading.Thread):
                     self.data_event.wait(timeout=0.125)
                     continue
                 now = time.time()
-                if period_size_limit is not None and period_size_sent >= period_size_limit:
+                if period_size_limit is not None and period_size_sent >= period_size_limit and now < mark_send_next:
                     time.sleep(mark_send_next - now)
                     now = mark_send_next
                 if now >= mark_send_next:
