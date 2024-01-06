@@ -49,12 +49,14 @@ class SyncThreadPump(threading.Thread):
     def fetch(self, ct):
         assert self.running or self.queue_bg_out.qsize() >= ct
         return (self.queue_bg_out.get().result() for x in range(ct))
-    def immed(self, size, *send_params, **send_kwparams):
+    def immed_fut(self, size, *send_params, **send_kwparams):
         assert self.running
         fut = DeferredProxiedFuture()
         self.queue_fg.put([size, send_params, send_kwparams, fut])
         self.data_event.set()
-        return fut.result()
+        return fut
+    def immed(self, size, *send_params, **send_kwparams):
+        return self.immed_fut(size, *send_params, **send_kwparams).result()
     def run(self):
         period_size_limit = self.period_size_limit
         period_size_best = 0
