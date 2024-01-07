@@ -17,7 +17,7 @@ from setuptools import setup
 
 setup(
     name='yarl39',
-    version='0.0.2',
+    version='0.0.4',
     description='Yet Another Rate Limiter 39 - pipelining sync calls',
     url='http://github.com/xloem/yarl39',
     author='Karl Semich',
