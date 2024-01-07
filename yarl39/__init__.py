@@ -43,7 +43,7 @@ class SyncThreadPump(threading.Thread):
     def feed(self, size, *send_params, **send_kwparams):
         assert self.running
         fut = DeferredProxiedFuture()
-        self.queue_bg_in.put([size, send_params, send_kwparams, fut])
+        self.queue_bg_in.put([size+0, send_params, send_kwparams, fut])
         self.queue_bg_out.put(fut)
         return fut
     def fetch(self, ct):
@@ -52,7 +52,7 @@ class SyncThreadPump(threading.Thread):
     def immed_fut(self, size, *send_params, **send_kwparams):
         assert self.running
         fut = DeferredProxiedFuture()
-        self.queue_fg.put([size, send_params, send_kwparams, fut])
+        self.queue_fg.put([size+0, send_params, send_kwparams, fut])
         self.data_event.set()
         return fut
     def immed(self, size, *send_params, **send_kwparams):
